@@ -562,6 +562,21 @@ class Model
 	}
 
 	/**
+	 * Returns a copy of the model's attributes hash, with get methods
+	 *
+	 * @return array A copy of the model's attribute data
+	 */
+	public function __attributes()
+	{
+          $res = array();
+          foreach ($this->attributes as $k => $v) {
+            $res[$k] = $this->__get($k);
+          }
+          return $res;
+	}
+
+        
+	/**
 	 * Retrieve the primary key name.
 	 *
 	 * @param boolean Set to true to return the first value in the pk array only
@@ -1776,7 +1791,7 @@ class Model
 	 * @param array $options Options array for the serializer
 	 * @return string Serialized representation of the model
 	 */
-	private function serialize($type, $options)
+	public function serialize($type, $options)
 	{
 		require_once 'Serialization.php';
 		$class = "ActiveRecord\\{$type}Serializer";
