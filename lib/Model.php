@@ -454,6 +454,14 @@ class Model
 		return $value;
 	}
 
+
+        /**
+         * Remove relationship to force reload on next access.
+         **/
+        public function remove_relationship($name) {
+          unset($this->__relationships[$name]);
+        }
+        
 	/**
 	 * Retrieves an attribute's value or a relationship object based on the name passed. If the attribute
 	 * accessed is 'id' then it will return the model's primary key no matter what the actual attribute name is
