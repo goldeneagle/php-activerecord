@@ -474,6 +474,14 @@ class Model
 		return $value;
 	}
 
+
+        /**
+         * Remove relationship to force reload on next access.
+         **/
+        public function remove_relationship($name) {
+          unset($this->__relationships[$name]);
+        }
+        
 	/**
 	 * Retrieves an attribute's value or a relationship object based on the name passed. If the attribute
 	 * accessed is 'id' then it will return the model's primary key no matter what the actual attribute name is
@@ -581,6 +589,21 @@ class Model
 		return $this->attributes;
 	}
 
+	/**
+	 * Returns a copy of the model's attributes hash, with get methods
+	 *
+	 * @return array A copy of the model's attribute data
+	 */
+	public function __attributes()
+	{
+          $res = array();
+          foreach ($this->attributes as $k => $v) {
+            $res[$k] = $this->__get($k);
+          }
+          return $res;
+	}
+
+        
 	/**
 	 * Retrieve the primary key name.
 	 *
@@ -1118,8 +1141,9 @@ class Model
 		if (isset($this->updated_at))
 			$this->updated_at = $now;
 
-		if (isset($this->created_at) && $this->is_new_record())
+		if (isset($this->created_at) && $this->is_new_record() && ($this->created_at == NULL)) {
 			$this->created_at = $now;
+                }
 	}
 
 	/**
@@ -1797,7 +1821,7 @@ class Model
 	 * @param array $options Options array for the serializer
 	 * @return string Serialized representation of the model
 	 */
-	private function serialize($type, $options)
+	public function serialize($type, $options)
 	{
 		require_once 'Serialization.php';
 		$class = "ActiveRecord\\{$type}Serializer";

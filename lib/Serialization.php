@@ -97,7 +97,7 @@ abstract class Serialization
 	{
 		$this->model = $model;
 		$this->options = $options;
-		$this->attributes = $model->attributes();
+		$this->attributes = $model->__attributes();
 		$this->parse_options();
 	}
 
@@ -173,9 +173,13 @@ abstract class Serialization
 				try {
 					$assoc = $this->model->$association;
 
+                                        if ($assoc == null) {
+                                          /* skip empty association */
+                                          continue;
+                                        }
+                                        
 					if (!is_array($assoc) &&
 						!($assoc instanceof \IteratorAggregate))
-					{
 						$serialized = new $serializer_class($assoc, $options);
 						$this->attributes[$association] = $serialized->to_a();
 					}
@@ -213,7 +217,7 @@ abstract class Serialization
 	 * Returns the attributes array.
 	 * @return array
 	 */
-	final public function to_a()
+        public function to_a()
 	{
 		foreach ($this->attributes as &$value)
 		{
@@ -254,6 +258,30 @@ class ArraySerializer extends Serialization
 		return self::$include_root ? array(strtolower(get_class($this->model)) => $this->to_a()) : $this->to_a();
 	}
 }
+
+  class MyJsonSerializer extends \ActiveRecord\Serialization
+  {
+    public static $include_root = false;
+    
+    public function to_a()
+    {
+      $res = $this->model->convertJSON(camelizeHash(parent::to_a()));
+      return $res;
+    }
+    
+    public function to_s()
+    {
+      return $this->to_a();
+    }
+
+    /*
+    public function to_s()
+    {
+      return $this->to_a();
+    }
+    */
+    
+  }
 
 /**
  * JSON serializer.
