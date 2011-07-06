@@ -173,13 +173,15 @@ abstract class Serialization
 				try {
 					$assoc = $this->model->$association;
 
-                                        if ($assoc == null) {
+                                        if ($assoc == null)
+                                        {
                                           /* skip empty association */
                                           continue;
                                         }
                                         
 					if (!is_array($assoc) &&
-						!($assoc instanceof \IteratorAggregate))
+                                            !($assoc instanceof \IteratorAggregate))
+                                        {
 						$serialized = new $serializer_class($assoc, $options);
 						$this->attributes[$association] = $serialized->to_a();
 					}
