@@ -256,9 +256,21 @@ class Model
 		{
 			foreach (static::table()->columns as $name => $meta)
 				$this->attributes[$meta->inflected_name] = $meta->default;
-		}
+                        $this->set_attributes_via_mass_assignment($attributes, $guard_attributes);
+		} else {
+                  $table = static::table();
+                  // print_r($attributes);
+                  // print_r(gettype($attributes['created_at']));
+                  // print_r($attributes);
+                  // $this->attributes = $attributes;
+                  foreach ($attributes as $name => $value) {
+                    if (array_key_exists($name,$table->columns) && !is_object($value))
+                      $value = $table->columns[$name]->cast($value,static::connection());
+                    $this->attributes[$name] = $value;
+                  }
+                  //                  $this->set_attributes_via_mass_assignment($attributes, $guard_attributes);
+                }
 
-		$this->set_attributes_via_mass_assignment($attributes, $guard_attributes);
 
 		// since all attribute assignment now goes thru assign_attributes() we want to reset
 		// dirty if instantiating via find since nothing is really dirty when doing that

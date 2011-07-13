@@ -19,6 +19,7 @@ class Column
 	const DATE      = 5;
 	const TIME      = 6;
 	const BINARY    = 7;
+        const ARRAY_TYPE = 8;
 
 	/**
 	 * Map a type to an column type.
@@ -48,7 +49,9 @@ class Column
 		'varbinary' => self::BINARY,
 		'tinyblob'  => self::BINARY,
 		'blob'      => self::BINARY,
-		'mediumblob'=> self::BINARY);
+		'mediumblob'=> self::BINARY,
+
+                'set' => self::ARRAY_TYPE);
 
 	/**
 	 * The true name of this column.
@@ -124,6 +127,7 @@ class Column
 
 		switch ($this->type)
 		{
+                case self::ARRAY_TYPE: return $value;
 			case self::STRING:	return (string)$value;
 			case self::INTEGER:	return (int)$value;
 			case self::DECIMAL:	return (double)$value;
