@@ -254,11 +254,25 @@ class Table
 			// nested include
 			if (is_array($name))
 			{
-				$nested_includes = count($name) > 1 ? $name : $name[0];
-				$name = $index;
+                          switch (count($name)) {
+                          case 0:
+                            $nested_includes = array();
+                            break;
+
+                          case 1:
+                            $nested_includes = $name[0];
+                            break;
+
+                          default:
+                            $nested_includes = $name;
+                            break;
+                          }
+                          $name = $index;
 			}
-			else
-				$nested_includes = array();
+                        else
+                        {
+                          $nested_includes = array();
+                        }
 
 			$rel = $this->get_relationship($name, true);
 			$rel->load_eagerly($models, $attrs, $nested_includes, $this);
