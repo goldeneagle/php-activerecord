@@ -411,6 +411,11 @@ class Table
 		if (!$hash)
 			return $hash;
 
+                if (!is_array($hash))
+                  {
+                    return $hash;
+                  }
+                
 		foreach ($hash as $name => &$value)
 		{
 			if ($value instanceof \DateTime)
