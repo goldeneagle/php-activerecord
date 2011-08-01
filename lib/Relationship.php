@@ -509,7 +509,7 @@ class HasMany extends AbstractRelationship
 				if (!($through_relationship = $model->table()->get_relationship($this->through)))
 					throw new HasManyThroughAssociationException("Could not find the association $this->through in model " . get_class($model));
 
-				if (!($through_relationship instanceof HasMany) && !($through_relationship instanceof BelongsTo))
+				if (!($through_relationship instanceof HasMany) && !($through_relationship instanceof BelongsTo)) 
 					throw new HasManyThroughAssociationException('has_many through can only use a belongs_to or has_many association');
 
 				// save old keys as we will be reseting them below for inner join convenience

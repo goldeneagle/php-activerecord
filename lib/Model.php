@@ -440,13 +440,13 @@ class Model
 			} elseif (
 								is_object($value) &&
 								$value instanceof $relationship->class_name
-								) {
+				) {
 				$this->__relationships[$name] = $value;
 				$pk = $value->get_primary_key(0);
 				return $this->assign_attribute(
-																			 $relationship->foreign_key[0],
-																			 $value->is_new_record() ? null : $value->{$pk[0]}
-																			 );
+					$relationship->foreign_key[0],
+					$value->is_new_record() ? null : $value->{$pk[0]}
+					);
 			} else {
 				throw new RelationshipException();
 			}
