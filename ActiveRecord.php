@@ -24,7 +24,7 @@ require 'lib/Exceptions.php';
 require 'lib/Cache.php';
 
 if (!defined('PHP_ACTIVERECORD_AUTOLOAD_DISABLE'))
-	spl_autoload_register('activerecord_autoload',false,PHP_ACTIVERECORD_AUTOLOAD_PREPEND);
+  spl_autoload_register('activerecord_autoload',false,PHP_ACTIVERECORD_AUTOLOAD_PREPEND);
 
 function activerecord_autoload($class_name)
 {
@@ -45,6 +45,6 @@ function activerecord_autoload($class_name)
 	$file = "$root/$class_name.php";
 
 	if (file_exists($file))
-		require $file;
+          require_once($file);
 }
 ?>
