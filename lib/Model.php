@@ -256,22 +256,24 @@ class Model
 		{
 			foreach (static::table()->columns as $name => $meta)
 				$this->attributes[$meta->inflected_name] = $meta->default;
-                        $this->set_attributes_via_mass_assignment($attributes, $guard_attributes);
-		} else {
-                  $table = static::table();
-                  // print_r($attributes);
-                  // print_r(gettype($attributes['created_at']));
-                  // print_r($attributes);
-                  // $this->attributes = $attributes;
-                  foreach ($attributes as $name => $value) {
-                    if (array_key_exists($name,$table->columns) && !is_object($value))
-                      $value = $table->columns[$name]->cast($value,static::connection());
-                    $this->attributes[$name] = $value;
-                  }
-                  //                  $this->set_attributes_via_mass_assignment($attributes, $guard_attributes);
-                }
-
-
+			$this->set_attributes_via_mass_assignment($attributes, $guard_attributes);
+		}
+		else
+		{
+			$table = static::table();
+			// print_r($attributes);
+			// print_r(gettype($attributes['created_at']));
+			// print_r($attributes);
+			// $this->attributes = $attributes;
+			foreach ($attributes as $name => $value) {
+				if (array_key_exists($name,$table->columns) && !is_object($value))
+					$value = $table->columns[$name]->cast($value,static::connection());
+				$this->attributes[$name] = $value;
+			}
+			$this->set_attributes_via_mass_assignment($attributes, $guard_attributes);
+		}
+		
+		
 		// since all attribute assignment now goes thru assign_attributes() we want to reset
 		// dirty if instantiating via find since nothing is really dirty when doing that
 		if ($instantiating_via_find)
@@ -430,21 +432,21 @@ class Model
 		}
 
 		$table = static::table();
-		if ($relationship = $table->get_relationship($name)
-		) {
+		if ($relationship = $table->get_relationship($name))
+		{
 			if (is_null($value)) {
 				$this->__relationships[$name] = $value;
 				return $this->assign_attribute($relationship->foreign_key[0], $value);
 			} elseif (
-				is_object($value) &&
-			    $value instanceof $relationship->class_name
-			) {
+								is_object($value) &&
+								$value instanceof $relationship->class_name
+								) {
 				$this->__relationships[$name] = $value;
 				$pk = $value->get_primary_key(0);
 				return $this->assign_attribute(
-					$relationship->foreign_key[0],
-					$value->is_new_record() ? null : $value->{$pk[0]}
-				);
+																			 $relationship->foreign_key[0],
+																			 $value->is_new_record() ? null : $value->{$pk[0]}
+																			 );
 			} else {
 				throw new RelationshipException();
 			}
@@ -487,12 +489,12 @@ class Model
 	}
 
 
-        /**
-         * Remove relationship to force reload on next access.
-         **/
-        public function remove_relationship($name) {
-          unset($this->__relationships[$name]);
-        }
+	/**
+	 * Remove relationship to force reload on next access.
+	 **/
+	public function remove_relationship($name) {
+		unset($this->__relationships[$name]);
+	}
         
 	/**
 	 * Retrieves an attribute's value or a relationship object based on the name passed. If the attribute
@@ -608,11 +610,11 @@ class Model
 	 */
 	public function __attributes()
 	{
-          $res = array();
-          foreach ($this->attributes as $k => $v) {
-            $res[$k] = $this->__get($k);
-          }
-          return $res;
+		$res = array();
+		foreach ($this->attributes as $k => $v) {
+			$res[$k] = $this->__get($k);
+		}
+		return $res;
 	}
 
         
@@ -1155,7 +1157,7 @@ class Model
 
 		if (isset($this->created_at) && $this->is_new_record() && ($this->created_at == NULL)) {
 			$this->created_at = $now;
-                }
+		}
 	}
 
 	/**
@@ -1584,22 +1586,22 @@ class Model
 		{
 			switch ($args[0])
 			{
-				case 'all':
-					$single = false;
-					break;
+			case 'all':
+				$single = false;
+				break;
 
-			 	case 'last':
-					if (!array_key_exists('order',$options))
-						$options['order'] = join(' DESC, ',static::table()->pk) . ' DESC';
-					else
-						$options['order'] = SQLBuilder::reverse_order($options['order']);
+			case 'last':
+				if (!array_key_exists('order',$options))
+					$options['order'] = join(' DESC, ',static::table()->pk) . ' DESC';
+				else
+					$options['order'] = SQLBuilder::reverse_order($options['order']);
 
-					// fall thru
+				// fall thru
 
-			 	case 'first':
-			 		$options['limit'] = 1;
-			 		$options['offset'] = 0;
-			 		break;
+			case 'first':
+				$options['limit'] = 1;
+				$options['offset'] = 0;
+				break;
 			}
 
 			$args = array_slice($args,1);
@@ -1780,25 +1782,25 @@ class Model
 	}
 
 	/**
-	* Returns an CSV representation of this model.
-	* Can take optional delimiter and enclosure
-	* (defaults are , and double quotes)
-	*
-	* Ex:
-	* <code>
-	* ActiveRecord\CsvSerializer::$delimiter=';';
-	* ActiveRecord\CsvSerializer::$enclosure='';
-	* YourModel::find('first')->to_csv(array('only'=>array('name','level')));
-	* returns: Joe,2
-	*
-	* YourModel::find('first')->to_csv(array('only_header'=>true,'only'=>array('name','level')));
-	* returns: name,level
-	* </code>
-	*
-	* @see Serialization
-	* @param array $options An array containing options for csv serialization (see {@link Serialization} for valid options)
-	* @return string CSV representation of the model
-	*/
+	 * Returns an CSV representation of this model.
+	 * Can take optional delimiter and enclosure
+	 * (defaults are , and double quotes)
+	 *
+	 * Ex:
+	 * <code>
+	 * ActiveRecord\CsvSerializer::$delimiter=';';
+	 * ActiveRecord\CsvSerializer::$enclosure='';
+	 * YourModel::find('first')->to_csv(array('only'=>array('name','level')));
+	 * returns: Joe,2
+	 *
+	 * YourModel::find('first')->to_csv(array('only_header'=>true,'only'=>array('name','level')));
+	 * returns: name,level
+	 * </code>
+	 *
+	 * @see Serialization
+	 * @param array $options An array containing options for csv serialization (see {@link Serialization} for valid options)
+	 * @return string CSV representation of the model
+	 */
 	public function to_csv(array $options=array())
 	{
 		return $this->serialize('Csv', $options);

@@ -12,14 +12,14 @@ namespace ActiveRecord;
 class Column
 {
 	// types for $type
-	const STRING    = 1;
-	const INTEGER   = 2;
-	const DECIMAL   = 3;
-	const DATETIME  = 4;
-	const DATE      = 5;
-	const TIME      = 6;
-	const BINARY    = 7;
-        const ARRAY_TYPE = 8;
+	const STRING		= 1;
+	const INTEGER		= 2;
+	const DECIMAL		= 3;
+	const DATETIME	= 4;
+	const DATE			= 5;
+	const TIME			= 6;
+	const BINARY		= 7;
+	const ARRAY_TYPE = 8;
 
 	/**
 	 * Map a type to an column type.
@@ -27,31 +27,31 @@ class Column
 	 * @var array
 	 */
 	static $TYPE_MAPPING = array(
-		'datetime'  => self::DATETIME,
+		'datetime'	=> self::DATETIME,
 		'timestamp' => self::DATETIME,
-		'date'      => self::DATE,
-		'time'      => self::TIME,
-
-		'int'       => self::INTEGER,
-		'tinyint'   => self::INTEGER,
-		'smallint'  => self::INTEGER,
+		'date'			=> self::DATE,
+		'time'			=> self::TIME,
+		
+		'int'				=> self::INTEGER,
+		'tinyint'		=> self::INTEGER,
+		'smallint'	=> self::INTEGER,
 		'mediumint' => self::INTEGER,
-		'bigint'    => self::INTEGER,
-
-		'float'     => self::DECIMAL,
-		'double'    => self::DECIMAL,
-		'numeric'   => self::DECIMAL,
-		'decimal'   => self::DECIMAL,
-		'dec'       => self::DECIMAL,
-
-		'bytea'     => self::BINARY,
-		'binary'    => self::BINARY,
+		'bigint'		=> self::INTEGER,
+		
+		'float'			=> self::DECIMAL,
+		'double'		=> self::DECIMAL,
+		'numeric'		=> self::DECIMAL,
+		'decimal'		=> self::DECIMAL,
+		'dec'				=> self::DECIMAL,
+		
+		'bytea'			=> self::BINARY,
+		'binary'		=> self::BINARY,
 		'varbinary' => self::BINARY,
-		'tinyblob'  => self::BINARY,
-		'blob'      => self::BINARY,
+		'tinyblob'	=> self::BINARY,
+		'blob'			=> self::BINARY,
 		'mediumblob'=> self::BINARY,
-
-                'set' => self::ARRAY_TYPE);
+		
+		'set' => self::ARRAY_TYPE);
 
 	/**
 	 * The true name of this column.
@@ -127,30 +127,30 @@ class Column
 
 		switch ($this->type)
 		{
-                case self::ARRAY_TYPE: return $value;
-			case self::STRING:	return (string)$value;
-			case self::INTEGER:	return (int)$value;
-			case self::DECIMAL:	return (double)$value;
-			case self::BINARY: 
-				if (!$value)
-					return null;
+		case self::ARRAY_TYPE: return $value;
+		case self::STRING:	return (string)$value;
+		case self::INTEGER:	return (int)$value;
+		case self::DECIMAL:	return (double)$value;
+		case self::BINARY: 
+			if (!$value)
+				return null;
 				
-				if ($value instanceof Binary)
-					return $value;
+			if ($value instanceof Binary)
+				return $value;
 
-				return new Binary($value);
-			case self::DATETIME:
-			case self::DATE:
-				if (!$value)
-					return null;
+			return new Binary($value);
+		case self::DATETIME:
+		case self::DATE:
+			if (!$value)
+				return null;
 
-				if ($value instanceof DateTime)
-					return $value;
+			if ($value instanceof DateTime)
+				return $value;
 
-				if ($value instanceof \DateTime)
-					return new DateTime($value->format('Y-m-d H:i:s T'));
+			if ($value instanceof \DateTime)
+				return new DateTime($value->format('Y-m-d H:i:s T'));
 
-				return $connection->string_to_datetime($value);
+			return $connection->string_to_datetime($value);
 		}
 		return $value;
 	}
