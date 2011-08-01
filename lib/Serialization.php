@@ -182,8 +182,14 @@ abstract class Serialization
 					if (!is_array($assoc) &&
 							!($assoc instanceof \IteratorAggregate))
 					{
-						$serialized = new $serializer_class($assoc, $options);
-						$this->attributes[$association] = $serialized->to_a();
+						if (!$assoc instanceof Model) {
+							$this->attributes[$association] = $assoc;
+						}
+						else
+						{
+							$serialized = new $serializer_class($assoc, $options);
+							$this->attributes[$association] = $serialized->to_a();
+						}
 					}
 					else
 					{
@@ -191,12 +197,18 @@ abstract class Serialization
 
 						foreach ($assoc as $a)
 						{
-							$serialized = new $serializer_class($a, $options);
-
-							if ($this->includes_with_class_name_element)
-								$includes[strtolower(get_class($a))][] = $serialized->to_a();
+							if (!$a instanceof Model) {
+								$includes[] = $a;
+							}
 							else
-								$includes[] = $serialized->to_a();
+							{
+								$serialized = new $serializer_class($a, $options);
+								
+								if ($this->includes_with_class_name_element)
+									$includes[strtolower(get_class($a))][] = $serialized->to_a();
+								else
+									$includes[] = $serialized->to_a();
+							}
 						}
 
 						$this->attributes[$association] = $includes;
