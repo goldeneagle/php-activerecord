@@ -1152,7 +1152,7 @@ class Model
 	{
 		$now = date('Y-m-d H:i:s');
 
-		if (isset($this->updated_at))
+		if (isset($this->updated_at) && ($this->updated_at == NULL))
 			$this->updated_at = $now;
 
 		if (isset($this->created_at) && $this->is_new_record() && ($this->created_at == NULL)) {
