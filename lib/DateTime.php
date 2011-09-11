@@ -66,7 +66,7 @@ class DateTime extends \DateTime implements InterfaceAttribute
 
 	public function attribute_of($model, $attribute_name)
 	{
-		$this->model = $model;
+		//		$this->model = $model;
 		$this->attribute_name = $attribute_name;
 	}
 
@@ -120,6 +120,7 @@ class DateTime extends \DateTime implements InterfaceAttribute
 
 	private function flag_dirty()
 	{
+		throw new Exception("flag date dirty");
 		if ($this->model)
 			$this->model->flag_dirty($this->attribute_name);
 	}

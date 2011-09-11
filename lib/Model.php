@@ -1232,6 +1232,7 @@ class Model
 				if ($use_attr_protected && in_array($name,static::$attr_protected))
 					continue;
 
+				
 				// set valid table data
 				try {
 					$this->$name = $value;
