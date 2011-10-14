@@ -515,6 +515,7 @@ class Model
 		if (array_key_exists($name,$this->attributes))
 			return $this->attributes[$name];
 
+		//		var_dump($this->attributes);
 		// check relationships if no attribute
 		if (array_key_exists($name,$this->__relationships))
 			return $this->__relationships[$name];
@@ -714,7 +715,7 @@ class Model
 		if ($delegate['prefix'] != '')
 			$name = substr($name,strlen($delegate['prefix'])+1);
 
-		if (is_array($delegate) && in_array($name,$delegate['delegate']))
+		if (is_array($delegate) && in_array($name, $delegate['delegate']))
 			return $name;
 
 		return null;

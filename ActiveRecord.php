@@ -22,6 +22,7 @@ require 'lib/Inflector.php';
 require 'lib/CallBack.php';
 require 'lib/Exceptions.php';
 require 'lib/Cache.php';
+require 'lib/Relationship.php';
 
 if (!defined('PHP_ACTIVERECORD_AUTOLOAD_DISABLE'))
   spl_autoload_register('activerecord_autoload',false,PHP_ACTIVERECORD_AUTOLOAD_PREPEND);
