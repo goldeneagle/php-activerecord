@@ -170,15 +170,17 @@ abstract class Serialization
 					$options = array();
 				}
 
+
 				try {
 					$assoc = $this->model->$association;
 
-					if ($assoc == null)
+					if ($assoc === null)
 					{
 						/* skip empty association */
 						continue;
 					}
-                                        
+
+					
 					if (!is_array($assoc) &&
 							!($assoc instanceof \IteratorAggregate))
 					{
