@@ -18,6 +18,7 @@ class Table
 	private static $cache = array();
 
 	public $class;
+  /** @var \ActiveRecord\Connection  */
 	public $conn;
 	public $pk;
 	public $last_sql;
