@@ -287,7 +287,7 @@ abstract class Connection
 	 *
 	 * @param string $sql Raw SQL string to execute.
 	 * @param array &$values Optional array of bind values
-	 * @return mixed A result set object
+	 * @return \PDOStatement A result set object
 	 */
 	public function query($sql, &$values=array())
 	{
