@@ -278,10 +278,26 @@ class ArraySerializer extends Serialization
 class MyJsonSerializer extends \ActiveRecord\Serialization
 {
 	public static $include_root = false;
-    
+
 	public function to_a()
 	{
+    $model = $this->model;
 		$res = $this->model->convertJSON(camelizeHash(parent::to_a()));
+    if ($cleanup = array_get($this->options, "cleanup")) {
+      $varname = "cleanup_$cleanup";
+      if ($model::$$varname) {
+        $res = cleanupObj($res, $model::$$varname);
+      }
+    } else if ($model::$cleanup) {
+      $res = cleanupObj($res, $model::$cleanup);
+    }
+    $hidden = array_get($this->options, "hidden", array());
+    $hidden = array_merge($model::$hidden, $hidden);
+
+    foreach ($hidden as $field) {
+      unset($res[$field]);
+    }
+
 		return $res;
 	}
     
