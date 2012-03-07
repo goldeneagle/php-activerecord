@@ -305,14 +305,6 @@ class MyJsonSerializer extends \ActiveRecord\Serialization
 	{
 		return $this->to_a();
 	}
-
-	/*
-    public function to_s()
-    {
-		return $this->to_a();
-    }
-	*/
-    
 }
 
 /**
