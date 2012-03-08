@@ -283,16 +283,35 @@ class MyJsonSerializer extends \ActiveRecord\Serialization
 	{
     $model = $this->model;
 		$res = $this->model->convertJSON(camelizeHash(parent::to_a()));
+    $cleanupVars = null;
     if ($cleanup = array_get($this->options, "cleanup")) {
       $varname = "cleanup_$cleanup";
       if ($model::$$varname) {
-        $res = cleanupObj($res, $model::$$varname);
+        $cleanupVars = $model::$$varname;
       }
     } else if ($model::$cleanup) {
-      $res = cleanupObj($res, $model::$cleanup);
+      $cleanupVars = $model::$cleanup;
     }
+
+    if ($cleanupVars) {
+      if ($includes = array_get($this->options, "include")) {
+        foreach ($includes as $k => $v) {
+          if (!is_array($v)) {
+            $k = $v;
+          }
+          $cleanupVars[] = $k;
+        }
+      }
+      // XXX add all includes to cleanupVars as well
+      $res = cleanupObj($res, $cleanupVars);
+    }
+
     $hidden = array_get($this->options, "hidden", array());
     $hidden = array_merge($model::$hidden, $hidden);
+    /* allow explicitly whitelisted variables */
+    if ($cleanupVars) {
+      $hidden = array_diff($hidden, $cleanupVars);
+    }
 
     foreach ($hidden as $field) {
       unset($res[$field]);
