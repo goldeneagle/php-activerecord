@@ -348,6 +348,18 @@ abstract class Connection
 		return $row[0];
 	}
 
+  /**
+   * Execute a query and return all the result rows
+   *
+   * @param $sql
+   * @param array $values
+   * @return array
+   */
+  public function query_and_fetch_all($sql, &$values = array()) {
+    $sth = $this->query($sql, $values);
+    return $sth->fetchAll();
+  }
+
 	/**
 	 * Execute a raw SQL query and fetch the results.
 	 *
