@@ -355,9 +355,9 @@ abstract class Connection
    * @param array $values
    * @return array
    */
-  public function query_and_fetch_all($sql, &$values = array()) {
+  public function query_and_fetch_all($sql, &$values = array(), $mode = PDO::FETCH_BOTH) {
     $sth = $this->query($sql, $values);
-    return $sth->fetchAll();
+    return $sth->fetchAll($mode);
   }
 
 	/**
