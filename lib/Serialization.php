@@ -299,7 +299,7 @@ class MyJsonSerializer extends \ActiveRecord\Serialization
           if (!is_array($v)) {
             $k = $v;
           }
-          $cleanupVars[] = $k;
+          $cleanupVars[] = camelize($k);
         }
       }
       // XXX add all includes to cleanupVars as well
