@@ -119,8 +119,15 @@ class CallBack
 				if (!is_array($definition))
 					$definition = array($definition);
 
-				foreach ($definition as $method_name)
-					$this->register($name,$method_name);
+        if (is_hash($definition)) {
+          foreach ($definition as $method_name => $options) {
+            $this->register($name, $method_name, $options);
+          }
+        } else {
+          foreach ($definition as $method_name) {
+            $this->register($name,$method_name);
+          }
+        }
 			}
 
 			// implicit callbacks that don't need to have a static definition
