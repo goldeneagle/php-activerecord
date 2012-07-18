@@ -591,13 +591,15 @@ class Model
 	 */
 	public function attribute_is_dirty($attribute)
 	{
-		return $this->__dirty && $this->__dirty[$attribute] && array_key_exists($attribute, $this->attributes);
-	}
+		return $this->__dirty && array_key_exists($attribute, $this->__dirty) &&
+           $this->__dirty[$attribute]
+           && array_key_exists($attribute, $this->attributes);
+  }
 
-	/**
-	 * Returns a copy of the model's attributes hash.
-	 *
-	 * @return array A copy of the model's attribute data
+  /**
+   * Returns a copy of the model's attributes hash.
+   *
+   * @return array A copy of the model's attribute data
 	 */
 	public function attributes()
 	{
@@ -1153,8 +1155,11 @@ class Model
 	{
 		$now = date('Y-m-d H:i:s');
 
-		if (isset($this->updated_at))
-			$this->updated_at = $now;
+		if (isset($this->updated_at)) {
+      if ($this->updated_at == null || !$this->attribute_is_dirty("updated_at")) {
+        $this->updated_at = $now;
+      }
+    }
 
 		if (isset($this->created_at) && $this->is_new_record() && ($this->created_at == NULL)) {
 			$this->created_at = $now;
