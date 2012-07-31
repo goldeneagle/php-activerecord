@@ -88,7 +88,10 @@ class Table
 
 		$this->callback = new CallBack($class_name);
 		$this->callback->register('before_save', function(Model $model) { $model->set_timestamps(); }, array('prepend' => true));
-		$this->callback->register('after_save', function(Model $model) { $model->reset_dirty(); }, array('prepend' => true));
+		$this->callback->register('after_save', function(Model $model) {
+      $model->handle_save_callbacks();
+      $model->reset_dirty();
+    }, array('prepend' => true));
 	}
 
 	public function reestablish_connection($close=true)

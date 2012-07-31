@@ -85,14 +85,14 @@ class Model
 	 *
 	 * @var array
 	 */
-	private $attributes = array();
+	protected $attributes = array();
 
 	/**
 	 * Flag whether or not this model's attributes have been modified since it will either be null or an array of column_names that have been modified
 	 *
 	 * @var array
 	 */
-	private $__dirty = null;
+  protected $__dirty = null;
 
 	/**
 	 * Flag that determines of this model can have a writer method invoked such as: save/update/insert/delete
@@ -1313,7 +1313,21 @@ class Model
 		return $this;
 	}
 
-	/**
+
+  /**
+   * Calls callback handlers for updated attributes
+   */
+  public function handle_save_callbacks() {
+    foreach ($this->__dirty as $key => $value) {
+      // callbacks must not exist
+      $this->invoke_callback("after_attribute_modified:".$key, false);
+    }
+    if (count($this->__dirty) > 0) {
+      $this->invoke_callback("after_attributes_modified", false);
+    }
+  }
+
+  /**
 	 * Resets the dirty array.
 	 *
 	 * @see dirty_attributes

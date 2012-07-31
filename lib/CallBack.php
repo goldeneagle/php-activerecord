@@ -78,13 +78,14 @@ class CallBack
 		'before_validation_on_update',
 		'after_validation_on_update',
 		'before_destroy',
-		'after_destroy'
+		'after_destroy',
+    'after_attributes_modified'
 	);
 
 	/**
 	 * Container for reflection class of given model
 	 *
-	 * @var object
+	 * @var \ReflectionClass
 	 */
 	private $klass;
 
@@ -109,7 +110,7 @@ class CallBack
 	 */
 	public function __construct($model_class_name)
 	{
-		$this->klass = Reflections::instance()->get($model_class_name);
+    $this->klass = Reflections::instance()->get($model_class_name);
 
 		foreach (static::$VALID_CALLBACKS as $name)
 		{
