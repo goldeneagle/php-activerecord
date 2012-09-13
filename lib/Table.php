@@ -44,12 +44,13 @@ class Table
 	/**
 	 * A instance of CallBack for this model/table
 	 * @static
-	 * @var object ActiveRecord\CallBack
+	 * @var object CallBack
 	 */
 	public $callback;
 
 	/**
 	 * List of relationships for this table.
+   * @var AbstractRelationship[]
 	 */
 	private $relationships = array();
 
@@ -304,15 +305,15 @@ class Table
 		return $table;
 	}
 
-	/**
-	 * Retrieve a relationship object for this table. Strict as true will throw an error
-	 * if the relationship name does not exist.
-	 *
-	 * @param $name string name of Relationship
-	 * @param $strict bool
-	 * @throws RelationshipException
-	 * @return Relationship or null
-	 */
+  /**
+   * Retrieve a relationship object for this table. Strict as true will throw an error
+   * if the relationship name does not exist.
+   *
+   * @param $name string name of Relationship
+   * @param $strict bool
+   * @throws RelationshipException
+   * @return AbstractRelationship|null
+   */
 	public function get_relationship($name, $strict=false)
 	{
 		if ($this->has_relationship($name))
