@@ -42,6 +42,10 @@ use ArrayIterator;
 class Validations
 {
 	private $model;
+  /**
+   * @var \ReflectionClass
+   */
+  private $klass;
 	private $options = array();
 	private $validators = array();
 	private $record;
