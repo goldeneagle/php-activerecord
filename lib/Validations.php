@@ -279,34 +279,35 @@ class Validations
 		}
 	}
 
-	/**
-	 * Validates that a value is numeric.
-	 *
-	 * <code>
-	 * class Person extends ActiveRecord\Model {
-	 *   static $validates_numericality_of = array(
-	 *     array('salary', 'greater_than' => 19.99, 'less_than' => 99.99)
-	 *   );
-	 * }
-	 * </code>
-	 *
-	 * Available options:
-	 *
-	 * <ul>
-	 * <li><b>only_integer:</b> value must be an integer (e.g. not a float)</li>
-	 * <li><b>even:</b> must be even</li>
-	 * <li><b>odd:</b> must be odd"</li>
-	 * <li><b>greater_than:</b> must be greater than specified number</li>
-	 * <li><b>greater_than_or_equal_to:</b> must be greater than or equal to specified number</li>
-	 * <li><b>equal_to:</b> ...</li>
-	 * <li><b>less_than:</b> ...</li>
-	 * <li><b>less_than_or_equal_to:</b> ...</li>
-	 * <li><b>allow_blank:</b> allow blank strings</li>
-	 * <li><b>allow_null:</b> allow null strings</li>
-	 * </ul>
-	 *
-	 * @param array $attrs Validation definition
-	 */
+  /**
+   * Validates that a value is numeric.
+   *
+   * <code>
+   * class Person extends ActiveRecord\Model {
+   *   static $validates_numericality_of = array(
+   *     array('salary', 'greater_than' => 19.99, 'less_than' => 99.99)
+   *   );
+   * }
+   * </code>
+   *
+   * Available options:
+   *
+   * <ul>
+   * <li><b>only_integer:</b> value must be an integer (e.g. not a float)</li>
+   * <li><b>even:</b> must be even</li>
+   * <li><b>odd:</b> must be odd"</li>
+   * <li><b>greater_than:</b> must be greater than specified number</li>
+   * <li><b>greater_than_or_equal_to:</b> must be greater than or equal to specified number</li>
+   * <li><b>equal_to:</b> ...</li>
+   * <li><b>less_than:</b> ...</li>
+   * <li><b>less_than_or_equal_to:</b> ...</li>
+   * <li><b>allow_blank:</b> allow blank strings</li>
+   * <li><b>allow_null:</b> allow null strings</li>
+   * </ul>
+   *
+   * @param array $attrs Validation definition
+   * @throws ValidationsArgumentError
+   */
 	public function validates_numericality_of($attrs)
 	{
 		$configuration = array_merge(self::$DEFAULT_VALIDATION_OPTIONS, array('only_integer' => false));
@@ -394,28 +395,29 @@ class Validations
 		$this->validates_length_of($attrs);
 	}
 
-	/**
-	 * Validates that a value is matches a regex.
-	 *
-	 * <code>
-	 * class Person extends ActiveRecord\Model {
-	 *   static $validates_format_of = array(
-	 *     array('email', 'with' => '/^.*?@.*$/')
-	 *   );
-	 * }
-	 * </code>
-	 *
-	 * Available options:
-	 *
-	 * <ul>
-	 * <li><b>with:</b> a regular expression</li>
-	 * <li><b>message:</b> custom error message</li>
-	 * <li><b>allow_blank:</b> allow blank strings</li>
-	 * <li><b>allow_null:</b> allow null strings</li>
-	 * </ul>
-	 *
-	 * @param array $attrs Validation definition
-	 */
+  /**
+   * Validates that a value is matches a regex.
+   *
+   * <code>
+   * class Person extends ActiveRecord\Model {
+   *   static $validates_format_of = array(
+   *     array('email', 'with' => '/^.*?@.*$/')
+   *   );
+   * }
+   * </code>
+   *
+   * Available options:
+   *
+   * <ul>
+   * <li><b>with:</b> a regular expression</li>
+   * <li><b>message:</b> custom error message</li>
+   * <li><b>allow_blank:</b> allow blank strings</li>
+   * <li><b>allow_null:</b> allow null strings</li>
+   * </ul>
+   *
+   * @param array $attrs Validation definition
+   * @throws ValidationsArgumentError
+   */
 	public function validates_format_of($attrs)
 	{
 		$configuration = array_merge(self::$DEFAULT_VALIDATION_OPTIONS, array('message' => Errors::$DEFAULT_ERROR_MESSAGES['invalid'], 'on' => 'save', 'with' => null));
@@ -439,30 +441,31 @@ class Validations
 		}
 	}
 
-	/**
-	 * Validates the length of a value.
-	 *
-	 * <code>
-	 * class Person extends ActiveRecord\Model {
-	 *   static $validates_length_of = array(
-	 *     array('name', 'within' => array(1,50))
-	 *   );
-	 * }
-	 * </code>
-	 *
-	 * Available options:
-	 *
-	 * <ul>
-	 * <li><b>is:</b> attribute should be exactly n characters long</li>
-	 * <li><b>in/within:</b> attribute should be within an range array(min,max)</li>
-	 * <li><b>maximum/minimum:</b> attribute should not be above/below respectively</li>
-	 * <li><b>message:</b> custome error message</li>
-	 * <li><b>allow_blank:</b> allow blank strings</li>
-	 * <li><b>allow_null:</b> allow null strings. (Even if this is set to false, a null string is always shorter than a maximum value.)</li>
-	 * </ul>
-	 *
-	 * @param array $attrs Validation definition
-	 */
+  /**
+   * Validates the length of a value.
+   *
+   * <code>
+   * class Person extends ActiveRecord\Model {
+   *   static $validates_length_of = array(
+   *     array('name', 'within' => array(1,50))
+   *   );
+   * }
+   * </code>
+   *
+   * Available options:
+   *
+   * <ul>
+   * <li><b>is:</b> attribute should be exactly n characters long</li>
+   * <li><b>in/within:</b> attribute should be within an range array(min,max)</li>
+   * <li><b>maximum/minimum:</b> attribute should not be above/below respectively</li>
+   * <li><b>message:</b> custome error message</li>
+   * <li><b>allow_blank:</b> allow blank strings</li>
+   * <li><b>allow_null:</b> allow null strings. (Even if this is set to false, a null string is always shorter than a maximum value.)</li>
+   * </ul>
+   *
+   * @param array $attrs Validation definition
+   * @throws ValidationsArgumentError
+   */
 	public function validates_length_of($attrs)
 	{
 		$configuration = array_merge(self::$DEFAULT_VALIDATION_OPTIONS, array(
