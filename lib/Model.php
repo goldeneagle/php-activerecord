@@ -557,6 +557,10 @@ class Model
 		throw new UndefinedPropertyException(get_called_class(),$name);
 	}
 
+  public function is_relationship_loaded($name) {
+    return array_key_exists($name, $this->__relationships);
+  }
+
 	/**
 	 * Flags an attribute as dirty.
 	 *
@@ -961,7 +965,7 @@ class Model
 		$conn = static::connection();
 		$sql = new SQLBuilder($conn, $table->get_fully_qualified_table_name());
 
-		$conditions = is_array($options) ? $options['conditions'] : $options;
+		$conditions = is_array($options) && array_key_exists("conditions", $options) ? $options['conditions'] : $options;
 
 		if (is_array($conditions) && !is_hash($conditions))
 			call_user_func_array(array($sql, 'delete'), $conditions);
