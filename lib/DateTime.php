@@ -137,7 +137,7 @@ class DateTime extends \DateTime implements InterfaceAttribute
 		call_user_func_array(array($this,'parent::setISODate'),func_get_args());
 	}
 
-	public function setTime($hour, $minute, $second=null)
+	public function setTime($hour, $minute, $second=null, $microseconds=null)
 	{
 		$this->flag_dirty();
 		call_user_func_array(array($this,'parent::setTime'),func_get_args());
