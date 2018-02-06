@@ -1660,8 +1660,9 @@ class Model
 		$options['conditions'] = static::pk_conditions($values);
 		$list = static::table()->find($options);
 		$results = count($list);
+		$countValues = is_array($values) ? count($values) : 1;
 
-		if ($results != ($expected = count($values)))
+		if ($results != ($expected = $countValues))
 		{
 			$class = get_called_class();
 
